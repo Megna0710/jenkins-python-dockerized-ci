@@ -1,0 +1,37 @@
+
+name: Python Variable Scope Demo
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  workflow-scope:
+    name: Workflow-level variable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display workflow variable
+        run: echo "Python version is $PYTHON_VERSION"
+
+  job-scope:
+    name: Job-level variable
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: "3.12"
+    steps:
+      - name: Display job variable
+        run: echo "Python version is $PYTHON_VERSION"
+
+  step-scope:
+    name: Step-level variable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display step variable
+        env:
+          PYTHON_VERSION: "3.13"
+        run: echo "Python version is $PYTHON_VERSION"
