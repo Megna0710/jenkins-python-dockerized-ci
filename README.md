@@ -1,118 +1,186 @@
-\# Jenkins Python Dockerized CI
+# Jenkins Python Dockerized CI
 
+A Python project demonstrating **Continuous Integration (CI)** using Jenkins, Docker, Git, and GitHub. This project automates dependency installation, code linting, automated testing, test-result reporting, and build-artifact archiving through a Jenkins pipeline.
 
+**Repository:** [jenkins-python-dockerized-ci](https://github.com/Megna0710/jenkins-python-dockerized-ci)
 
-An intermediate-level CI assignment demonstrating a Docker-based Jenkins Declarative Pipeline for Python linting, automated testing, test reporting, and coverage generation.
+## Project Highlights
 
+- Jenkins Declarative Pipeline defined in a `Jenkinsfile`
+- GitHub source-code integration
+- Docker-based pipeline execution
+- Automated Python linting and testing
+- Jenkins test-result reporting
+- Test coverage report archived as `coverage.xml`
+- Workspace and temporary-container cleanup
 
+## Technology Stack
 
-\## Pipeline Stages
+| Technology | Purpose |
+|---|---|
+| Python | Application and test code |
+| Jenkins | CI pipeline automation |
+| Docker | Containerized execution |
+| Git and GitHub | Version control and source hosting |
+| pytest | Automated testing |
+| pytest-cov / coverage | Test coverage reporting |
+| flake8 | Python code-quality checks |
 
+## CI Pipeline Workflow
 
+1. **Checkout SCM** — retrieves the source code from GitHub.
+2. **Install Dependencies** — prepares the Python environment and installs required packages.
+3. **Lint** — runs Python code-quality checks.
+4. **Test** — executes automated tests.
+5. **Archive Reports** — records test results and archives `coverage.xml`.
+6. **Cleanup** — removes the pipeline workspace and temporary Docker resources.
 
-1\. \*\*Checkout Code\*\* — retrieves the source from the configured repository.
+The exact stages and commands are defined in the repository's `Jenkinsfile`.
 
-2\. \*\*Set Up Environment\*\* — creates a Python virtual environment and installs dependencies.
+## Successful Build Results
 
-3\. \*\*Lint\*\* — runs Flake8 against the application and test files.
+The captured Jenkins build completed successfully.
 
-4\. \*\*Run Tests\*\* — executes pytest and generates JUnit XML and coverage reports.
+| Metric | Result |
+|---|---:|
+| Build status | Success |
+| Build duration | 39 seconds |
+| Tests passed | 2 |
+| Tests failed | 0 |
+| Tests skipped | 0 |
+| Archived artifact | `coverage.xml` |
 
-5\. \*\*Archive Reports\*\* — publishes the JUnit results and archives the coverage report.
+*These results reflect the captured build and may change with subsequent code changes.*
 
+## Project Screenshots
 
+The screenshots below document the Jenkins pipeline execution. Save the corresponding images in the `screenshots/` directory.
 
-The Jenkins agent uses `python:3.11-slim`. The separate Flask application uses the Ubuntu-based Dockerfile.
+### 1. Successful Jenkins Build
 
+![Successful Jenkins Build](screenshots/jenkins-build-success.png)
 
+### 2. Pipeline Console Output
 
-\## Components
+![Jenkins Pipeline Console Output](screenshots/pipeline-console.png)
 
+### 3. Automated Test Results
 
+![Jenkins Test Results](screenshots/test-results.png)
 
-\- `app.py` — arithmetic functions.
+### 4. Build Artifacts
 
-\- `tests/test\_app.py` — unit tests.
+![Jenkins Build Artifacts](screenshots/coverage-artifact.png)
 
-\- `requirements.txt` — Python dependencies.
+## Getting Started
 
-\- `Jenkinsfile` — Jenkins Declarative Pipeline.
+### Prerequisites
 
-\- `app1.py` — Flask web application.
+Install the following tools:
 
-\- `Dockerfile` — container definition for the Flask application.
+- Git
+- Python 3
+- Docker Desktop
+- Jenkins with the required Pipeline and Git support
 
-\- `.github/workflows/python-variables.yml` — GitHub Actions variable-scope demonstration.
-
-
-
-\## Local Verification
-
-
-
-Install dependencies:
-
-
+### 1. Clone the Repository
 
 ```bash
-
-python -m pip install -r requirements.txt
-
+git clone https://github.com/Megna0710/jenkins-python-dockerized-ci.git
+cd jenkins-python-dockerized-ci
 ```
 
+### 2. Set Up Python
 
+On Windows PowerShell:
 
-Run tests:
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-
+On Linux or macOS:
 
 ```bash
-
-python -m pytest tests/ -v
-
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
+### 3. Run the Tests
 
-
-Run linting:
-
-
+Run the test command configured in the project's `Jenkinsfile`. If the test suite uses pytest, execute:
 
 ```bash
-
-python -m flake8 app.py app1.py tests/
-
+pytest
 ```
 
+Run the configured linting command as well to reproduce the pipeline's code-quality checks locally.
 
+## Configure the Jenkins Pipeline
 
-\## Jenkins Reports
+1. Start Jenkins and ensure it can access Docker.
+2. Create a new **Pipeline** job.
+3. Select **Pipeline script from SCM**.
+4. Choose **Git** as the source control system.
+5. Enter the repository URL:
 
+   `https://github.com/Megna0710/jenkins-python-dockerized-ci.git`
 
+6. Select the repository's branch, such as `main`.
+7. Set the script path to `Jenkinsfile`.
+8. Save the configuration and select **Build Now**.
+9. Review **Console Output**, **Tests**, and **Build Artifacts** to verify the result.
 
-\- JUnit test report: `reports/test-results.xml`
+The required plugins and installed tools depend on the pipeline configuration.
 
-\- Coverage report: `coverage.xml`
+## Example Repository Structure
 
+```text
+jenkins-python-dockerized-ci/
+├── screenshots/
+│   ├── jenkins-build-success.png
+│   ├── pipeline-console.png
+│   ├── test-results.png
+│   └── coverage-artifact.png
+├── Jenkinsfile
+├── Dockerfile
+├── requirements.txt
+├── tests/
+└── README.md
+```
 
+This is an illustrative structure. Retain all existing application files and folders in your actual repository.
 
-Jenkins publishes the JUnit results and archives the coverage XML file. The workspace is cleaned after each build.
+## Skills Demonstrated
 
+- CI pipeline design using Jenkins Pipeline as Code
+- Git and GitHub integration
+- Python dependency management
+- Automated testing and linting
+- Docker-based CI execution
+- Test-result reporting and artifact archiving
+- Pipeline monitoring and troubleshooting
 
+## Future Enhancements
 
-\## GitHub Actions
+- Configure GitHub webhooks for automatic build triggers
+- Add pull-request validation
+- Enforce test-coverage thresholds
+- Publish Docker images to a container registry
+- Introduce deployment stages where appropriate
+- Add a Jenkins build-status badge
 
+## Author
 
+**Megna Pradeep**
 
-The workflow demonstrates workflow-level, job-level, and step-level environment variables. It can be triggered by a push to `main` or manually through GitHub Actions.
+- GitHub: [Megna0710](https://github.com/Megna0710)
+- Project Repository: [Jenkins Python Dockerized CI](https://github.com/Megna0710/jenkins-python-dockerized-ci)
 
-
-
-\## Repository
-
-
-
-This project demonstrates Python CI automation using Jenkins, Docker, Flake8, pytest, and coverage reporting.
 
 
 
